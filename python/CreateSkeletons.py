@@ -1,6 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
-from Tkinter import *
+import tkinter
+from tkinter import *
 import os
 import sys
 
@@ -19,7 +20,7 @@ if __name__ == "__main__":
 #        sys.exit()
         
     if len(sys.argv) != 1:
-        print 'Usage: CreateSkeletons'
+        print('Usage: CreateSkeletons')
         sys.exit()
 
 #    indices = range(int(sys.argv[2]),int(sys.argv[3])+1)    
@@ -36,9 +37,9 @@ if __name__ == "__main__":
     file = open('imagefiles.txt','r')
     filename = file.readline()
     while (filename):
-        print 'Processing ' + filename
+        print('Processing ' + filename)
         command = 'iftPanicleSkel ' + filename
-        print command
+        print(command)
         os.system(command)
         filename = file.readline()
         

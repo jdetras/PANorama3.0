@@ -1,16 +1,16 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 #
 # Interface to define the main axis of panicles
 # 
-
-from Tkinter import *
+import tkinter
+from tkinter import *
 from PIL import Image, ImageTk
 from PIL.ImageTk import PhotoImage
-import tkMessageBox 
+from tkinter import messagebox
+from tkinter import filedialog
 import sys
 import os
-import tkFileDialog
 import datetime
 
 # Grab the cursor's position
@@ -109,7 +109,7 @@ def SaveImage():
 
     if win.Filename:
         ftypes   = [('Image files', '.jpg')]            
-        FileName = tkFileDialog.asksaveasfilename(initialdir='./originals',initialfile=filename, filetypes=ftypes, title='Save image')
+        FileName = tkinter.filedialog.asksaveasfilename(initialdir='./originals',initialfile=filename, filetypes=ftypes, title='Save image')
         if FileName:
             win.image.save(FileName,"jpeg")
             filelist = FileName.split('/')
@@ -252,7 +252,7 @@ def ManageID():
 # Usage instructions
 
 def Help():
-    win.msg = tkMessageBox.showinfo('Instructions','To do ')
+    win.msg = tkinter.messagebox.showinfo('Instructions','To do ')
 
 #
 # Main function

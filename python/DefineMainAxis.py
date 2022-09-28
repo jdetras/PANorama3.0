@@ -1,16 +1,17 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 #
 # Interface to define the main axis of panicles
 # 
 
-from Tkinter import *
+import tkinter
+from tkinter import *
 from PIL import Image, ImageTk
 from PIL.ImageTk import PhotoImage
-import tkMessageBox 
+from tkinter import messagebox 
 import sys
 import os
-import tkFileDialog
+from tkinter import filedialog
 
 
 # Grab the cursor's position
@@ -96,8 +97,8 @@ def ZoomOut( ):
     return
 
 def ShowCoords(event):
-    print 'Relative Coords of the Event: ', event.x, event.y  
-    print 'Absolute Coords of the Event: ', win.canvas.canvasx(event.x), win.canvas.canvasy(event.y)
+    print('Relative Coords of the Event: '), event.x, event.y  
+    print('Absolute Coords of the Event: '), win.canvas.canvasx(event.x), win.canvas.canvasy(event.y)
 
     return
 
@@ -192,11 +193,11 @@ def SavePoints():
     ptlist = range(0,3)
     for i in ptlist:
         if not win.SelectedPoint[i]:
-            tkMessageBox.showwarning('Save Points','First select all points')
+            tkinter.messagebox.showwarning('Save Points','First select all points')
             return
     
     basename = win.Filename.split('.')
-    print basename[0]
+    print(basename[0])
     filename = basename[0] + '_mainaxis.txt'
     file = open(filename,'w')
     ptlist = range(0,3)
@@ -222,7 +223,7 @@ def Quit():
         if (number_of_selected_points == 0):
             sys.exit()
         else:
-            if (tkMessageBox.askyesno('Exiting the program','Do you want to save the selected points before exiting the program?')):
+            if (tkinter.messagebox.askyesno('Exiting the program','Do you want to save the selected points before exiting the program?')):
                 SavePoints()
                 if win.PointsSaved:    
                     sys.exit()
@@ -251,12 +252,12 @@ def Reset():
 def LoadImage():
 
     ftypes = [ ('Image files' , '.jpg') ]    
-    filename = tkFileDialog.askopenfilename(initialdir='./skeletons',filetypes=ftypes, title='Load a skeleton image')
+    filename = tkinter.filedialog.askopenfilename(initialdir='./skeletons',filetypes=ftypes, title='Load a skeleton image')
     if filename:
         ptlist = range(0,3)
         for i in ptlist:
             if (not win.PointsSaved and win.SelectedPoint[i]):
-                if tkMessageBox.askyesno('Loading a new image','Do you want to save the selected points before loading a new image?'):
+                if tkinter.messagebox.askyesno('Loading a new image','Do you want to save the selected points before loading a new image?'):
                     SavePoints()
         Reset()
         win.Filename = filename
@@ -310,7 +311,7 @@ def NextImage():
             ptlist = range(0,3)
             for i in ptlist:
                 if (not win.PointsSaved and win.SelectedPoint[i]):
-                    if tkMessageBox.askyesno('Loading a new image','Do you want to save the selected points before loading a new image?'):
+                    if tkinter.messagebox.askyesno('Loading a new image','Do you want to save the selected points before loading a new image?'):
                         SavePoints()
                         if not win.PointsSaved:    
                             index = index - 1
@@ -324,7 +325,7 @@ def NextImage():
             ptlist = range(0,3)
             for i in ptlist:
                 if (not win.PointsSaved and win.SelectedPoint[i]):
-                    if tkMessageBox.askyesno('Loading a new image','Do you want to save the selected points before loading a new image?'):
+                    if tkinter.messagebox.askyesno('Loading a new image','Do you want to save the selected points before loading a new image?'):
                         SavePoints()
 
 # Manage PointMenu
@@ -345,7 +346,7 @@ def ManagePointMenu():
 # Usage instructions
 
 def Help():
-    win.msg = tkMessageBox.showinfo('Instructions','Place bullets to indicate the beginning of the extrusion, the beginning of the main axis, and the end of the main axis, by clicking on the left button and dragging the bullet with the left button pressed. Save the selected points before exiting the program.')
+    win.msg = tkinter.messagebox.showinfo('Instructions','Place bullets to indicate the beginning of the extrusion, the beginning of the main axis, and the end of the main axis, by clicking on the left button and dragging the bullet with the left button pressed. Save the selected points before exiting the program.')
 
 #
 # Main function
