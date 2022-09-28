@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import os
 import sys
@@ -11,7 +11,7 @@ import sys
 if __name__ == "__main__":
 
     if len(sys.argv) != 1:
-        print 'Usage: ExtractMeasures.py '
+        print('Usage: ExtractMeasures.py ')
         sys.exit()
 
     os.system('ls > directories.txt')
@@ -31,7 +31,7 @@ if __name__ == "__main__":
                 filename = filename.split('/')[-1]
                 filename = filename.split('\n')[0]
                 command = 'iftPanicleMeasures ' + './' + dirname + ' ' + filename
-                print command
+                print(command)
                 os.system(command)
                 filename = file2.readline()
             file2.close()

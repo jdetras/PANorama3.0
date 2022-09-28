@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import os
 import sys
@@ -11,16 +11,16 @@ import sys
 if __name__ == "__main__":
 
     if len(sys.argv) != 1:
-        print 'Usage: ExtractInfo.py '
+        print('Usage: ExtractInfo.py ')
         sys.exit()
 
 
     file = open('imagefiles.txt','r')
     filename = file.readline()
     while (filename):
-        print 'Processing ' + filename
+        print('Processing ' + filename)
         command = 'iftPanicleInfo ' + filename
-        print command
+        print(command)
         os.system(command)
         filename = file.readline()
         
