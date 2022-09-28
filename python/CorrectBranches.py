@@ -1,16 +1,17 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 #
 # Interface to define the main axis of panicles
 # 
 
-from Tkinter import *
+import tkinter
+from tkinter import *
 from PIL import Image, ImageTk
 from PIL.ImageTk import PhotoImage
-import tkMessageBox 
+from tkinter import messagebox 
 import sys
 import os
-import tkFileDialog
+from tkinter import filedialog
 
 
 # Grab the cursor's position
@@ -96,8 +97,8 @@ def ZoomOut( ):
     return
 
 def ShowCoords(event):
-    print 'Relative Coords of the Event: ', event.x, event.y  
-    print 'Absolute Coords of the Event: ', win.canvas.canvasx(event.x), win.canvas.canvasy(event.y)
+    print('Relative Coords of the Event: '), event.x, event.y  
+    print('Absolute Coords of the Event: '), win.canvas.canvasx(event.x), win.canvas.canvasy(event.y)
 
     return
 
@@ -235,7 +236,7 @@ def Reset():
 def LoadImage():
 
     ftypes = [ ('Image files' , '.jpg') ]    
-    filename = tkFileDialog.askopenfilename(initialdir='./skeletons',filetypes=ftypes, title='Load a skeleton image')
+    filename = tkinter.filedialog.askopenfilename(initialdir='./skeletons',filetypes=ftypes, title='Load a skeleton image')
     if filename:
         Reset()
         win.Filename = filename
@@ -317,7 +318,7 @@ def NextImage():
 # Usage instructions
 
 def Help():
-    win.msg = tkMessageBox.showinfo('Instructions','Place a bullet at the last branch point to add or delete a branch from the panicle. The branch will be added when the bullet is cyan and it will be deleted when the bullet is red.')
+    win.msg = tkinter.messagebox.showinfo('Instructions','Place a bullet at the last branch point to add or delete a branch from the panicle. The branch will be added when the bullet is cyan and it will be deleted when the bullet is red.')
 
 #
 # Main function
