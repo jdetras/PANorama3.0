@@ -1,0 +1,382 @@
+Authors for contact: Alexandre Falcao (e-mail: afalcao@ic.unicamp.br)
+	    	     Samuel Crowell (e-mail: samuelvcrowell@gmail.com)
+
+-------------------------------------------------------------------------------
+
+Overview: 
+
+This readme file describes how to install, compile, and use PANorama
+2.0 for Panicle Image Acquisition, Processing, and Phenotyping.  PANorama
+is an open-source software.  By downloading and installing PANorama, you
+agree to the conditions as outlined within the included Open Source (GNU) 
+licensing agreement (see COPYING.txt file).
+
+Dependencies: 
+
+PANorama depends on lapack, blas, ift libraries. The first two should
+be publicly available in your linux distribution and should be
+installed to compile the programs. The ift library is given in the
+libift directory. You should find this library already compiled for
+64-bit and 32-bit linux machines.  For image capture, PANorama is dependent
+on the open-source software package gPhoto2.  gPhoto2 is available for 
+download at http://www.gphoto.org/.
+
+Implementation: 
+
+The core source code of PANorama is open in include/iftPANorama.h and
+src/iftPANorama.c, where you will find the main data structures and
+routines to manipulate panicle information. The main programs are also
+provided in src. The experiments should be executed in a data
+directory, created by the user according to the usage instructions.
+
+From the user point of view, PANorama essentially consists of a
+sequence of python scripts, given in the python directory.
+
+Corresponding publication:
+
+Crowell, Samuel, Alexandre X. Falcão, Ankur Shah, Zachary Wilson, Anthony J. 
+Greenberg, & Susan R. McCouch. (2014). High-Resolution Inflorescence Phenotyping 
+Using a Novel Image Analysis Pipeline, PANorama.  Plant Physiology (in press).  
+
+-------------------------------------------------------------------------------
+
+Useful Linux Commands:
+
+     man <command> -- Display the usage of the commands below and their parameters  
+     mkdir -- Open a directory
+     rmdir -- Remove a directory
+     cd    -- Goes to a directory in a given path
+     display <image> --- Displays an image on the screen (this requires installation of the ImageMagick package) 
+     mv    -- to rename a file
+     rm    -- to remove a file
+     cp    -- to copy a file
+     ln -s -- to link files/directories
+     pwd   -- to tell the current directory
+     ls -s -- to list files/directories
+     sudo  -- to execute any command as root (administrator)
+     tar -cvzf -- to create a ball of a directory with all its files (tar.gz extension)
+     tar -xvzf -- to decompress the files from a ball of a directory (tar.gz extension)
+     tar -cvjf -- to create a ball of a directory with all its files (tar.bz2 extension)
+     tar -xvjf -- to decompress the files from a ball of a directory (tar.bz2 extension)
+  
+-------------------------------------------------------------------------------
+
+Installation instructions:
+
+   Place the PANorama2.0.tar.bz2 zipped file into your root directory.
+   To unzip the file, execute the following command using terminal: 
+
+        tar -xvjf PANorama2.0.tar.bz2
+
+   Edit the .bashrc file in the root directory with the following
+   command at its end:
+       
+        export PATH=$PATH:$HOME/PANorama2.0/bin:$HOME/PANorama2.0/python 
+
+   The .bashrc will be executed everytime you open an xterminal. You
+   may also execute it whenever you change its content by typing the following
+   within the root directory:
+
+        source .bashrc 	
+
+   If you are having difficulty editing the .bashrc file from terminal,
+   go to your Home folder, click View>ShowHiddenFiles, and open the .bashrc
+   file manually.  Within the text editor, you can paste the command on a new 
+   line at the bottom of the file and click save:
+        
+	export PATH=$PATH:$HOME/PANorama2.0/bin:$HOME/PANorama2.0/python  
+   			
+ 
+------------------------------------------------------------------------------
+
+Compilation instructions:
+
+   Go to PANorama2.0 and edit the Makefile to select LIBIFT as
+   ift-64bits (for 64-bit linux machines) or ift-32bits (for 32-bit
+   linux machines). To do so, open Makefile and place a # in front
+   of the version that is not installed on your computer.  To find out if 
+   your linux machine is 32 or 64-bit, type the following into terminal:
+	
+	uname -a
+
+   Save the Makefile and close the text editor. To compile the program, type 
+   the following from terminal within the PANorama2.0 directory: 
+
+        make all 	    
+
+   You may also need to remove binaries and recompile everything
+   someday. In this case, type:
+
+        make clean
+        make all
+
+   After compilation, you may want to return to the root directory by
+   typing:
+
+        cd 
+
+-------------------------------------------------------------------------------
+
+Using PANorama:  
+
+PANorama scripts are executed within a structured directory (see Figure S1). 
+Several demo images are included within the subdirectory 'demo', stored within
+PANorama2.0. Detailed instruction videos are also available on the CornellRiceLab 
+Vimeo page:   http://vimeo.com/user25410343
+
+   In the root directory, create a data directory for your experiment.
+   For example, enter the following into the terminal:
+
+        mkdir data_PANorama_05012014
+    
+   Inside the data directory,
+
+        cd data_05012014
+
+   you will execute the first 4 scripts below in the given order. If you wish to 
+   test the included demo images, paste the entire originals directory stored 
+   within PANorama2.0/demo into your experimental folder and start the pipeline 
+   below at step 2.   
+   
+Scripts: 
+
+1. GetPictures.py 
+
+   This script must be used for image acquisition. It saves the images
+   in a subdirectory originals and their names in imagefiles.txt,
+   which will be used by the other scripts.  If the user wishes to analyze
+   images that are acquired outside the PANorama pipeline, the images 
+   must be in .jpg format and stored within the subdirectory originals.  
+
+2. CreateSkeletons.py 
+
+   This script computes the skeleton of each panicle image, listed in
+   imagefiles.txt and stored in originals, and saves each skeleton
+   image in a subdirectory skeletons.  Two files are created with the same
+   root name and stored within the subdirectory /skeletons: a _skel.jpg and 
+   a .inf file.  Re-executing CreateSkeletons.py will regenerate both of 
+   these files.  
+
+3. DefineMainAxis.py 
+
+   This script should be used to mark the three developmental points:
+   Extrusion Point, Intial Main Axis Point, and Final Main Axis Point. A
+   First/Next Image button is provided to load each skeleton image
+   related to a panicle image in imagefiles.txt. The marked points are
+   saved in the subdirectory skeletons, using a text file with the
+   same basename of the skeleton image file and extension .txt.
+
+4. ExtractInfo.py
+
+   For each panicle image in imagefiles.txt, this script reads the
+   skeleton image and the _mainaxis.txt file containing the marked points 
+   on the skeleton; computes the extrusion, the main axis, the primary 
+   branches, and the nodes along the main axis; and stores these 
+   informations in the subdirectory skeletons, within the binary .inf file.
+ 
+5. ExtractMeasures.py
+
+   After you have executed the previous 4 scripts in all data
+   directories, you can copy multiple experimental directories into 
+   a new data analysis directory (e.g. exper_analysis_05052014) for 
+   the measure extraction.  You can also link all data directories within an 
+   analysis folder.
+
+   Example: This example links to data directories of dates 05012014
+   	    and 05022014.
+
+	    cd 
+	    mkdir exper_05052014
+	    cd exper_05052014
+   	    ln -s ~/data_05012014 .
+	    ln -s ~/data_05022014 .
+
+   Finally, to extract measures from the skeleton images stored
+   in all data directories that you have included in exper_05052014,
+
+	    ExtractMeasures.py
+
+   This script will create the spreadsheet file PanicleMeasures.csv
+   with all extracted measures. The script appends lines into
+   PanicleMeasures.csv, so it must be removed before you re-execute
+   the script. It also creates ExtraPanicleMeasures.csv with
+   individual measures for branches and segments within the main axis.
+
+6. RebuildImageFiles.py 
+
+   This script can be executed inside a data directory to rebuild the
+   imagefiles.txt with the images stored in originals. It might be
+   useful if the imagefiles.txt get corrupted, or if you add or remove
+   files to originals. 
+
+   Example: 
+   	    cd ~/data_05012014
+	    RebuildImageFiles.py
+
+
+7. CorrectBranches.py 
+
+   This script allows to add/delete primary branches of the skeleton
+   by selecting bullets at their end points.  It works by directly 
+   editing the .inf file within the skeletons subdirectory.  Thus, 
+   any edits you make using CorrectBranches.py will be lost if the 
+   CreateSkeletons.py script is rerun--because a new .inf file is 
+   generated every time CreateSkeletons.py is executed.  
+
+   Example: 
+   	    cd ~/data_05012014
+	    CorrectBranches.py
+
+-------------------------------------------------------------------------------
+
+Adjusting PANorama settings:
+
+Multiple aspects of the PANorama pipeline are controlled by parameters 
+stored within a single file. You can adjust these settings by going to
+the following file:
+
+   PANorama2.0/include/iftPANorama.h 
+
+To edit parameters, change the numeric value beside a parameter name.  
+For example, the ANWSTHICK parameter is automatically set to filter awns that 
+are thinner than 0.032cm.  To turn this filter off, change this value to 0.0.
+After changing a parameter, you must recompile the program as described above:
+  
+   cd PANorama2.0    
+   make all 
+ 
+The parameters are listed below:
+
+#define VERSION      2.0     /* version 2.0 of PANorama */
+
+#define SCALE      120.0     /* pixels per cm */
+#define OTSUTHRES    1.2     /* factor to be multiplied by Otsu's threshold for panicle binarization */
+#define MAXDISTSEG 0.005     /* maximum allowed distance in cm to the
+				segment in order to compute a segment
+				length; higher is the value, smoother
+				is the segment. */     
+#define BULLETSZ   0.040     /* size of the bullets in cm on the skeleton */
+#define ANWSTHICK  0.032     /* thickness of awns in cm for awns removal */
+#define MINEXTSZ   0.083     /* minimum extrusion size in cm in order
+				to consider extrusion */
+#define MAXSKDIST  0.083     /* maximum distance in cm from the
+				skeleton in order to find the closest
+				skeleton point */
+
+#define MINJCTDIST    0.25     /* minimum inter-nodes distance (in cm)
+				in order to consider a new junction */ 
+
+#define MINFSTJCTLEN  0.5     /* minimum length (in cm) between the
+				 first point on the main axis and the
+				 first junction in order to consider
+				 this a valid segment */ 
+
+#define MINBRANCSZ   1.0     /* minimum size in cm to be considered a
+				branch */
+
+#define SEEDTHRES  0.10     /* Threshold in cm to erode mask and count
+			       seeds as the remaining connected
+			       components */
+
+#define SKELTHRES  0.10     /* Threshold to convert multiscale
+			       skeletons into a binary skeleton */
+
+
+#define R_END          0     /* color of the end points */
+#define G_END        255
+#define B_END          0
+
+#define R_SKL        255     /* color of the skeleton points */
+#define G_SKL        255
+#define B_SKL          0
+
+#define R_BCH          0     /* color of the primary braches */
+#define G_BCH        255
+#define B_BCH        255
+
+#define R_JCT          0     /* color of the junction points */
+#define G_JCT          0
+#define B_JCT        255
+
+#define R_AXS        255     /* color of the main axis and its first
+				and last points */
+#define G_AXS        100
+#define B_AXS          0
+
+#define R_EXT        255     /* color of the extrusion and its initial
+				point */
+#define G_EXT          0
+#define B_EXT        255
+
+#define DEBUG          0     /* Switch from 0 to 1 to Obtain extra
+                                information related to the phenotyping
+                                process. */
+
+-------------------------------------------------------------------------------
+
+Measurements:
+
+This version of PANorama computes the following phenotypic measures
+from images:
+
+01.  Length of extrusion (cm).
+02.  Length of main axis (cm).
+03.  Mean length between nodes along the main axis (cm).
+04.  Standard deviation of the length between nodes along the main axis (cm).
+05.  Maximum length between nodes along the main axis (cm).
+06.  Minimum length between nodes along the main axis (cm).
+07.  Mean length of the primary branches (cm).
+08.  Standard deviation of the length of the primary branches (cm).
+09.  Maximum length of the primary branches (cm).
+10.  Minimum length of the primary branches (cm).
+11.  Mean length of the primary branches below the center of the main axis (inferior slab) (cm).
+12.  Standard deviation of the length of the primary branches below the center of the main axis (inferior slab) (cm).
+13.  Maximum length of the primary branches below the center of the main axis (inferior slab) (cm).
+14. Minimum length of the primary branches below the center of the main axis (inferior slab) (cm).
+15. Mean length of the primary branches above the center of the main axis (superior slab) (cm).
+16. Standard deviation of the length of the primary branches above the center of the main axis (superior slab) (cm).
+17. Maximum length of the primary branches above the center of the main axis (superior slab) (cm).
+18. Minimum length of the primary branches above the center of the main axis (superior slab) (cm).
+19. Asymmetry of the primary branches: the absolute diference between
+    the mean lengths of the primary branches at the left and right
+    sides of the main axis divided by the sum of those mean
+    lengths. This represents a number between 0 and 1 (higher the
+    number, higher is the asymmetry).
+20. Asymmetry of the primary branches at the inferior slab (see 15). 
+21. Asymmetry of the primary branches at the superior slab (see 15). 
+22. Asymmetry of the number of primary branches: the absolute
+    diference between the number of primary branches at the left and
+    right sides of the main axis divided by the sum of those numbers.
+24. Asymmetry of the number of primary branches in the inferior slab
+    (see 20).
+23. Asymmetry of the number of primary branches in the superior slab
+    (see 20).
+24. Mean thickness of the main axis (cm).
+25. Standard deviation of the thickness of the main axis (cm).
+26. Number of skeleton points on the main axis.
+27. Maximum thickness of the main axis (cm).
+28. Minimum thickness of the main axis (cm).
+29. Mean thickness of the extrusion (cm). 
+30. Standard deviation of the thickness of the extrusion (cm). 
+31. Number of skeleton points on the extrusion. 
+32. Maximum thickness of the extrusion (cm). 
+33. Minimum thickness of the extrusion (cm). 
+34. Number of primary branches.
+35. Number of primary branches in the superior slab.
+36. Number of primary branches in the inferior slab.
+37. Number of nodes along the main axis.
+38. Number of nodes along the main axis in the superior slab.
+39. Number of nodes along the main axis in the inferior slab.
+40. Number of seeds.
+41. Number of tips (end points). 
+42. Mean number of branches per node. 
+43. Standard deviation of the number of branches per node. 
+44. Mean number of branches per node in the superior slab.
+45. Standard deviation of the number of branches per node in the superior slab.
+46. Mean number of branches per node in the inferior slab.
+47. Standard deviation of the number of branches per node in the inferior slab.
+48. Maximum number of branches per node. 
+49. Maximum number of branches per node in the superior slab.
+50. Maximum number of branches per node in the inferior slab.
+
+

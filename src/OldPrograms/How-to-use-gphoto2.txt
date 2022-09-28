@@ -1,0 +1,14 @@
+1.You must unmount the camera directory
+2. Type 
+
+gphoto2 --config 
+
+to configure the parameters of the camera and of the image.
+
+3. Type 
+
+env LANG=C gphoto2 --debug --debug-logfile=my-logfile.txt  --capture-image-and-download --filename=filename.jpg
+
+to get the picture
+
+
